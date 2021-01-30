@@ -1,4 +1,8 @@
-![# Homely](https://i.imgur.com/pUq7er4.png)
+![](https://i.imgur.com/pUq7er4.png)
+
+# Homely
+
+---
 
 ## Requirements
 
@@ -9,6 +13,8 @@
 
 These are the versions that Homely was tested to work with. Homely may still work with other versions, but support is not guaranteed.
 
+---
+
 ## Setup
 
 1. Clone this repo into a local folder.
@@ -16,6 +22,8 @@ These are the versions that Homely was tested to work with. Homely may still wor
 3. Set heroku_url in app.js and pages/site.html with your heroku site link (https://example.herokuapp.com)
 4. Place files you wish to remotely access in the data folder. It is currently populated with sample files and folders.
 5. Launch homely with launcher.py
+
+---
 
 ## Launch options
 
@@ -26,3 +34,5 @@ These are the versions that Homely was tested to work with. Homely may still wor
 -t XX: sets the interval (in XX seconds) for polling the data folder for changes. Default value: 10 seconds.
 
 -u: indicates that you wish to update the server's copy of the data before launching. Necessary for an up-to-date copy if the data has been changed since the server was last launched.
+
+---
