@@ -4,4 +4,6 @@ readme.md formatting
 
 fixed zip return
 
-addedscuffed mobile functionality
+added scuffed mobile functionality
+
+(remembered to) add launcher.py
