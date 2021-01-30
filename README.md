@@ -14,9 +14,9 @@
 
 1. Clone this repo into a local folder.
 2. Set-up heroku in your folder with: https://devcenter.heroku.com/articles/deploying-nodejs
-3. Replace all instances of https://flyyee-homely.herokuapp.com in app.js and pages/site.html with your heroku site link
+3. Set heroku_url in app.js and pages/site.html with your heroku site link (https://example.herokuapp.com)
 4. Place files you wish to remotely access in the data folder. It is currently populated with sample files and folders.
-5. Launch homely with "python launcher.py"
+5. Launch homely with launcher.py
 
 ## Launch options
 

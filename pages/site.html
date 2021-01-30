@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 
+<script>
+    const heroku_url = ''  // without trailing forward slash
+</script>
+
 <head>
     <title>Home.ly</title>
     <script src="https://kit.fontawesome.com/f459fdc3da.js" crossorigin="anonymous"></script>
@@ -219,7 +223,7 @@
 
     <script>
         function clear_reply() {
-            const server_api_ip = "https://flyyee-homely.herokuapp.com/api/clear_last_reply"
+            const server_api_ip = heroku_url + "/api/clear_last_reply"
             let my_req = new Request(server_api_ip, {
                 method: "POST",
                 mode: 'cors',
@@ -242,7 +246,7 @@
     </script>
 
     <script>
-        const server_api_ip = "https://flyyee-homely.herokuapp.com/api/get_last_reply"
+        const server_api_ip = heroku_url + "/api/get_last_reply"
         let my_req = new Request(server_api_ip, {
             mode: 'cors',
         })
@@ -294,7 +298,7 @@
         }
 
         function ffs(filename) {
-            const server_api_ip = "https://flyyee-homely.herokuapp.com/api/fake_formsubmit"
+            const server_api_ip = heroku_url + "/api/fake_formsubmit"
             let my_req = new Request(server_api_ip, {
                 body: JSON.stringify({
                     "filename": filename
@@ -324,7 +328,7 @@
         }
 
         function view_files() {
-            const server_api_ip = "https://flyyee-homely.herokuapp.com/api/get_files"
+            const server_api_ip = heroku_url + "/api/get_files"
             let my_req = new Request(server_api_ip, {
                 mode: 'cors',
             })
@@ -363,7 +367,7 @@
             const el = document.getElementById("filename_input")
             let filename = el.placeholder
 
-            const server_api_ip = "https://flyyee-homely.herokuapp.com/api/download_last_file"
+            const server_api_ip = heroku_url + "/api/download_last_file"
             let my_req = new Request(server_api_ip, {
                 body: JSON.stringify({
                     "filename": filename
@@ -377,7 +381,7 @@
             })
             await fetch(my_req)
                 .then(res => {
-                    window.location = "https://flyyee-homely.herokuapp.com/download_last_file"
+                    window.location = heroku_url + "/download_last_file"
                 })
                 .catch(err => { })
         }
@@ -393,7 +397,7 @@
         }
 
         function download_all_files() {
-            window.location = "https://flyyee-homely.herokuapp.com/download_all_files"
+            window.location = heroku_url + "/download_all_files"
         }
     </script>
 

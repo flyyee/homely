@@ -1,3 +1,5 @@
+const heroku_url = ''  // without trailing forward slash
+
 const fs = require("fs")
 const archiver = require('archiver');
 const express = require("express")
@@ -75,7 +77,7 @@ async function main() {
 
     let app = express()
     app.use(cors({
-        origin: 'https://flyyee-homely.herokuapp.com',
+        origin: heroku_url,
         optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
     }))
     app.use(bodyParser.json());
