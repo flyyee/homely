@@ -1,14 +1,13 @@
-# Homely
+![# Homely](https://i.imgur.com/pUq7er4.png)
 
 ## Requirements
 
 - Node.js 12.18.1
-
 - Npm 6.14.5
-
 - Heroku CLI 7.47.11
-
 - Python 3.8.3
+
+These are the versions that Homely was tested to work with. Homely may still work with other versions, but support is not guaranteed.
 
 ## Setup
 
