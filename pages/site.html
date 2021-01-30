@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home.ly</title>
+    <script src="https://kit.fontawesome.com/f459fdc3da.js" crossorigin="anonymous"></script>
+</head>
+
+<style>
+    body {
+        background-color: darkslategray;
+        /* font-family: Arial, Helvetica, sans-serif; */
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 33px;
+        text-align: center;
+        color: lightgrey;
+    }
+
+    input {
+        font-size: 33px;
+        background-color: steelblue;
+        border: 1px solid gold;
+        color: black;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    button {
+        font-size: 18px;
+        background-color: steelblue;
+        border: 1px solid black;
+        /* border: 1px solid gold; */
+        color: black;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    .btn {
+        background-color: DodgerBlue;
+        /* Blue background */
+        border: none;
+        /* Remove borders */
+        color: white;
+        /* White text */
+        padding: 12px 16px;
+        /* Some padding */
+        font-size: 16px;
+        /* Set a font size */
+        cursor: pointer;
+        /* Mouse pointer on hover */
+    }
+
+    /* #intro {
+        color: goldenrod;
+        margin: 20px;
+        font-size: 40px;
+        font-family: "Brush Script MT (cursive)";
+    } */
+
+    #last_reply_table {
+        margin: auto;
+        margin-top: 20px;
+        border: 2px solid rgb(26, 26, 26);
+    }
+
+    #last_reply {
+        font-family: Arial, Helvetica, sans-serif;
+        display: inline-block;
+        text-align: left
+    }
+
+    #directory_table {
+        margin: auto;
+        margin-top: 10px;
+        border: 2px solid rgb(26, 26, 26);
+    }
+
+    .directory {
+        display: inline-block;
+        text-align: left
+            /* float: left; */
+            /* clear: none; */
+    }
+
+    a:not(#directory_information_title):not(.reply_folder):not(#last_search_from) {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: 27px;
+        color: navy;
+        text-decoration: none;
+    }
+
+    #last_search_from {
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 33px;
+        /* text-align: center; */
+        color: lightgrey;
+        text-decoration: none;
+        text-shadow: 2px 2px black;
+    }
+
+    #directory_information_title {
+        /* font-size: 30px;
+        color: lightgrey; */
+        text-decoration: underline;
+    }
+
+    #filename_input::placeholder {
+        color: lightblue;
+        font-size: 30px;
+    }
+
+    .reply_folder {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: 27px;
+        color: grey;
+        text-decoration: none;
+    }
+
+    /* #view_files_output {
+        display: inline-block;
+        text-align: left
+    } */
+</style>
+
+<body>
+    <script>
+        let bright_interval
+        function brightD(amt, element_id) {
+            bright_interval = setInterval(bright.bind(null, amt, element_id), 40)
+            let el = document.getElementById(element_id)
+            let sz_color = getComputedStyle(el).color
+            // if (sz_color === "rgb(255, 255, 255)") {
+            //     document.getElementById("brightness_increase_button").disabled = true
+            //     brightU()
+            // } else {
+            //     document.getElementById("brightness_increase_button").disabled = false
+            // }
+            // if (sz_color === "rgb(0, 0, 0)") {
+            //     document.getElementById("brightness_decrease_button").disabled = true
+            //     brightU()
+            // } else {
+            //     document.getElementById("brightness_decrease_button").disabled = false
+            // }
+        }
+        function brightU() {
+            try {
+                if (bright_interval) clearInterval(bright_interval)
+            } catch (err) {
+            }
+        }
+
+        async function bright_reset(original_amt, element_id) {
+            let first2 = original_amt.indexOf(",") + 2, last2 = original_amt.lastIndexOf(",")
+            let c2 = parseInt(original_amt.substring(first2, last2))
+
+            let el = document.getElementById(element_id)
+            let sz_color = getComputedStyle(el).color
+            let first1 = sz_color.indexOf("(") + 1, last1 = sz_color.indexOf(",")
+            let c1 = parseInt(sz_color.substring(first1, last1))
+            let delta_amt = c1 - c2
+            for (let x = 0; x < Math.floor(Math.abs(delta_amt) / 10); x++) {
+                await new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        bright(Math.sign(delta_amt) * -10, element_id)
+                        resolve()
+                    }, 30)
+                })
+            }
+            setTimeout(() => {
+                el.style.color = original_amt
+            }, 30)
+        }
+
+        function bright(amt, element_id) {
+            let el = document.getElementById(element_id)
+            let sz_color = getComputedStyle(el).color
+            let first1 = sz_color.indexOf("(") + 1, last1 = sz_color.indexOf(",")
+            let c1 = parseInt(sz_color.substring(first1, last1))
+            let first2 = sz_color.indexOf(",") + 2, last2 = sz_color.lastIndexOf(",")
+            let c2 = parseInt(sz_color.substring(first2, last2))
+            let first3 = sz_color.lastIndexOf(",") + 2, last3 = sz_color.indexOf(")")
+            let c3 = parseInt(sz_color.substring(first3, last3))
+            c1 += amt, c2 += amt, c3 += amt
+            c1 = Math.min(c1, 255), c1 = Math.max(0, c1)
+            c2 = Math.min(c2, 255), c2 = Math.max(0, c2)
+            c3 = Math.min(c3, 255), c3 = Math.max(0, c3)
+            el.style.color = `rgb(${c1},${c2},${c3})`
+        }
+
+        function resetzoom(original_size, element_id) {
+            let el = document.getElementById(element_id)
+            let current_fontsize = parseFloat(getComputedStyle(el).fontSize)
+            zoom(original_size - current_fontsize, element_id, true)
+            // el.style.fontSize = `${original_size}px`
+        }
+
+        function zoom(amt, element_id, reset = false) {
+            //TODO: remember zoom after refresh and clearing
+            let count = 0
+            let f = function () {
+                let el = document.getElementById(element_id)
+                let current_fontsize = parseFloat(getComputedStyle(el).fontSize)
+                let new_fontsize = current_fontsize + (amt / 10)
+                if (!reset) {
+                    if (amt < 0) {
+                        new_fontsize = Math.max(new_fontsize, 10 + ((current_fontsize - 10) % Math.abs(amt)))
+                    } else if (amt > 0) {
+                        new_fontsize = Math.min(new_fontsize, 100 - ((100 - current_fontsize) % Math.abs(amt)))
+                    }
+                }
+                el.style.fontSize = `${new_fontsize}px`
+                count += 1
+                if (count < 10) {
+                    setTimeout(f, 10)
+                }
+            }
+            setTimeout(f, 0)
+        }
+    </script>
+
+    <script>
+        function clear_reply() {
+            const server_api_ip = "https://flyyee-homely.herokuapp.com/api/clear_last_reply"
+            let my_req = new Request(server_api_ip, {
+                method: "POST",
+                mode: 'cors',
+            })
+            fetch(my_req).then(res => res.json())
+                .then(res => {
+                    location.reload()
+                })
+                .catch(err => { })
+        }
+
+        function last_search_from_handlerD(filename) {
+            g_copy(filename, true)
+            document.getElementById("last_search_from").style.textShadow = "none";
+        }
+
+        function last_search_from_handlerU() {
+            document.getElementById("last_search_from").style.textShadow = "2px 2px black";
+        }
+    </script>
+
+    <script>
+        const server_api_ip = "https://flyyee-homely.herokuapp.com/api/get_last_reply"
+        let my_req = new Request(server_api_ip, {
+            mode: 'cors',
+        })
+        fetch(my_req).then(res => res.json())
+            .then(res => {
+                res.data = res.data.replace("\n", "<br>") // when getting from heroku-hosted
+                // should be \r\n when hosted locally
+                // console.log(res.data)
+                // res = JSON.parse(res)
+                if (res.filename == "No previous search") {
+                    document.getElementById("last_filename_reply").innerHTML = "<br>No last search."
+                    document.getElementById("buttons").hidden = true
+                    document.getElementById("last_reply_table").hidden = true
+                } else {
+                    document.getElementById("last_filename_reply").innerHTML = `<br>Last search: (<a id="last_search_from" onmouseup="last_search_from_handlerU()" onmousedown="javascript:last_search_from_handlerD('${res.filename}')">from '${res.filename}'</a>)`
+                    document.getElementById("buttons").hidden = false
+                    document.getElementById("last_reply_table").hidden = false
+                }
+                document.getElementById("last_reply").innerHTML = res.data
+                let filename = res.filename
+                if (filename.includes("/")) {
+                    filename = filename.substring(filename.lastIndexOf("/") + 1)
+                }
+                document.getElementById("filename_input").placeholder = `${filename}`
+            })
+            .catch(err => { })
+    </script>
+
+    <script src="https://riversun.github.io/jsframe/jsframe.js"></script>
+
+    <script>
+        async function copy_to_clipboard() {
+            let content = document.getElementById("last_reply").innerHTML
+            content = content.replace("<br>", "\n")
+            await navigator.clipboard.writeText(content)
+                .catch(err => { })
+        }
+
+        async function g_copy(content, notify = false) {
+            content = content.replace("<br>", "\n")
+            await navigator.clipboard.writeText(content)
+                .catch(err => { })
+            if (notify) {
+                const jsFrame = new JSFrame();
+                jsFrame.showToast({
+                    html: 'Copied to clipboard', align: 'bottom', duration: 800
+                });
+            }
+        }
+
+        function ffs(filename) {
+            const server_api_ip = "https://flyyee-homely.herokuapp.com/api/fake_formsubmit"
+            let my_req = new Request(server_api_ip, {
+                body: JSON.stringify({
+                    "filename": filename
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                    // 'Content-Type': 'text/plain'
+                },
+                method: "POST",
+                mode: 'cors',
+            })
+            fetch(my_req).then(res => res.json())
+                .then(res => {
+                    location.reload()
+                })
+                .catch(err => { })
+        }
+
+        function hide_files() {
+            if (document.getElementById("directory_table").hidden) {
+                document.getElementById("directory_table").hidden = false
+                document.getElementById("hide_files_button").innerHTML = "Hide files"
+            } else {
+                document.getElementById("directory_table").hidden = true
+                document.getElementById("hide_files_button").innerHTML = "Show files"
+            }
+        }
+
+        function view_files() {
+            const server_api_ip = "https://flyyee-homely.herokuapp.com/api/get_files"
+            let my_req = new Request(server_api_ip, {
+                mode: 'cors',
+            })
+            fetch(my_req).then(res => res.json())
+                .then(res => {
+                    let content = "<a id='directory_information_title'>Directory information</a><br>"
+                    const website_ip = "http://localhost:9050"
+                    for (let file of res.files) {
+                        if (file[file.length - 1] == "?") {
+                            file = file.substring(0, file.length - 1)
+                            content += `<a class="reply_folder">${file}</button><br>`
+                        } else {
+                            let original_file = file
+                            let indent = ""
+                            if (file.includes("/")) {
+                                let depth = file.match(/\//g).length
+                                for (let y = 0; y < depth; y++) {
+                                    indent += "---&nbsp"
+                                }
+                                file = file.substring(file.lastIndexOf("/") + 1)
+                            }
+                            content += `<a href="" onclick="ffs('${original_file}')">${indent}${file}</button><br>`
+                        }
+                    }
+                    document.getElementById("view_files_output").innerHTML = content
+                })
+                .catch(err => { })
+        }
+
+        view_files()
+    </script>
+
+    <script>
+        async function download() {
+            const el = document.getElementById("filename_input")
+            let filename = el.placeholder
+
+            const server_api_ip = "https://flyyee-homely.herokuapp.com/api/download_last_file"
+            let my_req = new Request(server_api_ip, {
+                body: JSON.stringify({
+                    "filename": filename
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                    // 'Content-Type': 'text/plain'
+                },
+                method: "POST",
+                mode: 'cors',
+            })
+            await fetch(my_req)
+                .then(res => {
+                    window.location = "https://flyyee-homely.herokuapp.com/download_last_file"
+                })
+                .catch(err => { })
+        }
+
+        function edit() {
+            if (document.getElementById("last_reply").contentEditable == "true") {
+                document.getElementById("last_reply").contentEditable = false
+                document.getElementById("edit_file_button").innerHTML = "Edit file"
+            } else {
+                document.getElementById("last_reply").contentEditable = true
+                document.getElementById("edit_file_button").innerHTML = "Lock file"
+            }
+        }
+
+        function download_all_files() {
+            window.location = "https://flyyee-homely.herokuapp.com/download_all_files"
+        }
+    </script>
+
+    <style>
+        #intro_shimmer {
+            /* color: goldenrod; */
+            /* margin: 20px; */
+            font-size: 40px;
+            font-family: "Brush Script MT (cursive)";
+            padding: 10px;
+            padding-top: 15px;
+        }
+
+        .shimmer {
+            text-align: center;
+            color: rgba(218, 165, 32, 0.1);
+            /* color: rgba(255, 255, 255, 0.1); */
+            /* background: -webkit-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff));
+        background: -moz-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff));
+        background: gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff)); */
+            background: -webkit-gradient(linear, left top, right top, from(rgba(218, 165, 32, 0.1)), to(rgba(218, 165, 32, 0.1)), color-stop(0.5, #fff));
+            background: -moz-gradient(linear, left top, right top, from(rgba(218, 165, 32, 0.1)), to(rgba(218, 165, 32, 0.1)), color-stop(0.5, #fff));
+            background: gradient(linear, left top, right top, from(rgba(218, 165, 32, 0.1)), to(rgba(218, 165, 32, 0.1)), color-stop(0.5, #fff));
+
+            -webkit-background-size: 125px 100%;
+            -moz-background-size: 125px 100%;
+            background-size: 125px 100%;
+            -webkit-background-clip: text;
+            -moz-background-clip: text;
+            background-clip: text;
+            -webkit-animation-name: shimmer;
+            -moz-animation-name: shimmer;
+            animation-name: shimmer;
+            -webkit-animation-duration: 2s;
+            -moz-animation-duration: 2s;
+            animation-duration: 2s;
+            -webkit-animation-iteration-count: infinite;
+            -moz-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            background-color: rgba(218, 165, 32, 0.8);
+        }
+
+        @-moz-keyframes shimmer {
+            0% {
+                background-position: top left;
+            }
+
+            100% {
+                background-position: top right;
+            }
+        }
+
+        @-webkit-keyframes shimmer {
+            0% {
+                background-position: top left;
+            }
+
+            100% {
+                background-position: top right;
+            }
+        }
+
+        @-o-keyframes shimmer {
+            0% {
+                background-position: top left;
+            }
+
+            100% {
+                background-position: top right;
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: top left;
+            }
+
+            100% {
+                background-position: top right;
+            }
+        }
+    </style>
+
+    <!-- <script>
+        const jsFrame = new JSFrame();
+        jsFrame.showToast({
+            html: 'This is a simple toast', align: 'top', duration: 2000
+        });
+    </script> -->
+    <div class="shimmer" id="intro_shimmer"><i>Home·ly</i></div>
+    <!-- <div id="intro"><i>Home·ly</i></div> -->
+    <form autocomplete="off" action="/formsubmit" method="post">
+        File name: <input type="text" id="filename_input" name="filename_input" placeholder="">
+        <input id="form_button" type="submit" value="Search">
+    </form>
+
+    <div id="show_files">
+        <button id="hide_files_button" onclick="hide_files()">Show files</button>
+        <button id="view_files_button" onclick="view_files()">Refresh files</i></button>
+        <button id="download_files_button" onclick="download_all_files()">Download all files (as .zip)</i></button>
+    </div>
+    <table id="directory_table" hidden=true>
+        <tr>
+            <td class="directory" id="view_files_output"><a id='directory_information_title'>Directory information</a>
+            </td>
+        </tr>
+    </table>
+    <div id="last_filename_reply"><br>Last search:</div>
+    <div id="buttons" hidden=true>
+        <button id="brightness_reset_button" onclick="bright_reset('rgb(211, 211, 211)', 'last_reply')">Reset
+            brightness</button>
+        <button id="brightness_decrease_button" onmousedown="brightD(-10, 'last_reply')" onmouseup="brightU()">Decrease
+            brightness</button>
+        <button id="brightness_increase_button" onmousedown="brightD(10, 'last_reply')" onmouseup="brightU()">Increase
+            brightness</button>
+        <!-- <button onclick="bright(-10, 'last_reply')">Decrease brightness</button> -->
+        <!-- <button onclick="bright(10, 'last_reply')">Increase brightness</button> -->
+        <button onclick="clear_reply()">Clear search</button><br>
+        <button onclick="copy_to_clipboard()">Copy to clipboard</button>
+        <button onclick="zoom(10, 'last_reply')">Zoom in</button>
+        <button onclick="zoom(-10, 'last_reply')">Zoom out</button>
+        <button onclick="resetzoom(30, 'last_reply')">Reset zoom</button><br>
+        <button onclick="download()">Download file</button>
+        <button onclick="edit()" id="edit_file_button">Edit file</button>
+    </div>
+
+    <table id="last_reply_table" hidden=true>
+        <tr>
+            <td id="last_reply" contentEditable=false></td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <style>
+            #text {
+                font-size: 20px;
+            }
+        </style>
+        <script>
+            function zoom(amt, element_id) {
+                let el = document.getElementById(element_id)
+                let current_fontsize = parseInt(getComputedStyle(el).fontSize)
+                let new_fontsize = current_fontsize + amt
+                new_fontsize = Math.max(new_fontsize, 10 + ((current_fontsize - 10) % Math.abs(amt)))
+                new_fontsize = Math.min(new_fontsize, 100 - (100 - current_fontsize) % Math.abs(amt))
+                el.style.fontSize = `${new_fontsize}px`
+            }
+        </script>
+        <button onclick="zoom(10, 'text')">Zoom in</button>
+        <button onclick="zoom(-10, 'text')">Zoom out</button>
+        <div id="text">Sample text</div>
+    </body>
+</html>
