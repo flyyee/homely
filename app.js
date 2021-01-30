@@ -173,31 +173,31 @@ async function main() {
     });
 
     app.get("/download_all_files", (site_req, site_res) => {
-        // TODO: use promise.all and async functions to concurrently load necessary functions
-        if (fs.existsSync("zips/all.zip")) fs.unlinkSync("zips/all.zip")
+        // // TODO: use promise.all and async functions to concurrently load necessary functions
+        // if (fs.existsSync("zips/all.zip")) fs.unlinkSync("zips/all.zip")
 
-        const output = fs.createWriteStream("zips/all.zip");
-        const archive = archiver('zip', {
-            zlib: { level: 9 } // Sets the compression level.
-        });
-        archive.pipe(output)
+        // const output = fs.createWriteStream("zips/all.zip");
+        // const archive = archiver('zip', {
+        //     zlib: { level: 9 } // Sets the compression level.
+        // });
+        // archive.pipe(output)
 
-        // TODO: use heroku instance
-        // TODO: re-write using v, since the following fails on folders
-        let files = fs.readdirSync(directory)
-        for (let file of files) {
-            let constructed_file = directory + "/" + file
-            archive.append(fs.createReadStream(constructed_file), { name: file });
-        }
+        // // TODO: use heroku instance
+        // // TODO: re-write using v, since the following fails on folders
+        // let files = fs.readdirSync(directory)
+        // for (let file of files) {
+        //     let constructed_file = directory + "/" + file
+        //     archive.append(fs.createReadStream(constructed_file), { name: file });
+        // }
 
-        output.on('close', function () {
-            // console.log(archive.pointer() + ' total bytes');
-            // console.log('archiver has been finalized and the output file descriptor has closed.');
-            site_res.download("zips/all.zip")
-        });
+        // output.on('close', function () {
+        //     // console.log(archive.pointer() + ' total bytes');
+        //     // console.log('archiver has been finalized and the output file descriptor has closed.');
+        //     site_res.download("zips/all.zip")
+        // });
 
-        archive.finalize();
-
+        // archive.finalize();
+        site_res.download("zips/all.zip")
     })
 
     let port = process.env.PORT;

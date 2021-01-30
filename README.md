@@ -1,4 +1,6 @@
-# Requirements
+# Homely
+
+## Requirements
 
 - Node.js 12.18.1
 
@@ -8,7 +10,7 @@
 
 - Python 3.8.3
 
-# Setup
+## Setup
 
 1. Clone this repo into a local folder.
 2. Set-up heroku in your folder with: https://devcenter.heroku.com/articles/deploying-nodejs
@@ -16,7 +18,7 @@
 4. Place files you wish to remotely access in the data folder. It is currently populated with sample files and folders.
 5. Launch homely with "python launcher.py"
 
-# Launch options
+## Launch options
 
 -r: indicates that you wish to shut the heroku dyno down before any other operations begin.
 
