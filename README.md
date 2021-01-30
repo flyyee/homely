@@ -36,3 +36,5 @@ These are the versions that Homely was tested to work with. Homely may still wor
 -u: indicates that you wish to update the server's copy of the data before launching. Necessary for an up-to-date copy if the data has been changed since the server was last launched.
 
 ---
+
+Created by github.com/flyyee under GNU General Public License v3.0
