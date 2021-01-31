@@ -1,5 +1,7 @@
 ## Newest changes
 
+added website icon
+
 added the option to select custom files to download
 
 added sound effects in the launcher
