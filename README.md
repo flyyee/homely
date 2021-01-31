@@ -32,8 +32,16 @@ OSX/Linux is not supported.
 1. Clone this repo into a local folder.
 2. Set-up heroku in your folder with: https://devcenter.heroku.com/articles/deploying-nodejs
 3. Set heroku_url in app.js and pages/site.html with your heroku site link (https://example.herokuapp.com)
-4. Place files you wish to remotely access in the data folder. It is currently populated with sample files and folders.
 5. Launch homely with launcher.py
+
+---
+
+## Usage
+
+1. Navigate to the main installation folder (called "Homely" by default).
+2. Place files you wish to remotely access in the data folder. It is currently populated with sample files and folders.
+3. Launch homely with launcher.py. Exiting the launcher will turn off dynamic file access, so any changes to files locally will not be reflected on the server until the launcher is restarted.
+4. Bring the server offline with the "-s" option. You will be unable to access the site until it is launched again.
 
 ---
 
