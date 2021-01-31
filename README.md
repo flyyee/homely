@@ -27,13 +27,21 @@ These are the versions that Homely was tested to work with. Homely may still wor
 
 ## Launch options
 
+### Note:  All launch options indicate a non-default setting. If a launch option is not set, the launcher will run using the default value or the opposite of the option.
+
+-na: disables all sound notifications
+
+-nc: disables checking loop. Launcher exits when the server has started, so the server's copy of the data will not be updated until the launcher is restarted without this option.
+
+-nu: starts the server without updating the server's copy of the data from the previous launch.
+
 -r: indicates that you wish to shut the heroku dyno down before any other operations begin.
 
--s: indicates that you only wish to end the heroku dyno. Launcher exits after the dyno shuts down.
+-ra: enables sound notifications when running the check loop
+
+-s: indicates that you only wish to end the heroku dyno. Launcher exits after the dyno shuts down. Takes precedence over all other options.
 
 -t XX: sets the interval (in XX seconds) for polling the data folder for changes. Default value: 10 seconds.
-
--u: indicates that you wish to update the server's copy of the data before launching. Necessary for an up-to-date copy if the data has been changed since the server was last launched.
 
 ---
 

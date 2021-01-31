@@ -2,7 +2,8 @@
 <html>
 
 <script>
-    const heroku_url = ''  // without trailing forward slash
+    const heroku_url = 'https://flyyee-homely.herokuapp.com'  // without trailing forward slash
+    // const heroku_url = 'http://localhost:9050'  // without trailing forward slash
 </script>
 
 <head>
@@ -28,6 +29,40 @@
         color: black;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     }
+
+    /* .cdownload_selector { */
+    /* -webkit-appearance: none; */
+    /* background-color: #fafafa; */
+    /* border: 1px solid #cacece; */
+    /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05); */
+    /* padding: 9px; */
+    /* border-radius: 3px; */
+    /* display: inline-block; */
+    /* position: relative; */
+    /* } */
+
+    /* .cdownload_selector:active,
+    .cdownload_selector:checked:active {
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .cdownload_selector:checked {
+        background-color: #e9ecee;
+        border: 1px solid #adb8c0;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05), inset 15px 10px -12px rgba(255, 255, 255, 0.1);
+        color: #99a1a7;
+    }
+
+    .cdownload_selector:checked:after {
+        content: '\2714'; */
+    /* background-color: green; */
+    /* content: "+"; */
+    /* font-size: 14px;
+        position: absolute;
+        top: 0px;
+        left: 3px;
+        color: #99a1a7;
+    } */
 
     button {
         font-size: 18px;
@@ -85,11 +120,44 @@
             /* clear: none; */
     }
 
-    a:not(#directory_information_title):not(.reply_folder):not(#last_search_from) {
+    a:not(#directory_information_title):not(.cd_format):not(#confirm_download_link) {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         font-size: 27px;
+        text-decoration: none;
+    }
+
+    a:not(#directory_information_title):not(.reply_folder):not(#last_search_from):not(.file_indent):not(.cd_format):not(#confirm_download_link) {
+        /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
+        /* font-size: 27px; */
+        color: navy;
+        /* text-decoration: none; */
+    }
+
+    .download_load_text {
         color: navy;
         text-decoration: none;
+    }
+
+    #confirm_download_link {
+        color: blue;
+        font-size: 15px;
+        text-decoration: underline;
+    }
+
+    #confirm_download_link:hover {
+        cursor: pointer;
+    }
+
+    .cdownload_selector:not(.file_sel_icon):hover {
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .cd_format {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 27px;
+        text-decoration: none;
+        color: black;
     }
 
     #last_search_from {
@@ -119,6 +187,10 @@
         text-decoration: none;
     }
 
+    .file_indent {
+        color: black;
+    }
+
     /* #view_files_output {
         display: inline-block;
         text-align: left
@@ -126,6 +198,135 @@
 </style>
 
 <body>
+    <style>
+        #intro_shimmer {
+            /* color: goldenrod; */
+            /* margin: 20px; */
+            font-size: 40px;
+            font-family: "Brush Script MT (cursive)";
+            padding: 10px;
+            padding-top: 15px;
+        }
+
+        .shimmer {
+            text-align: center;
+            color: rgba(218, 165, 32, 0.1);
+            /* color: rgba(255, 255, 255, 0.1); */
+            /* background: -webkit-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff));
+        background: -moz-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff));
+        background: gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff)); */
+            background: -webkit-gradient(linear, left top, right top, from(rgba(218, 165, 32, 0.1)), to(rgba(218, 165, 32, 0.1)), color-stop(0.5, #fff));
+            background: -moz-gradient(linear, left top, right top, from(rgba(218, 165, 32, 0.1)), to(rgba(218, 165, 32, 0.1)), color-stop(0.5, #fff));
+            background: gradient(linear, left top, right top, from(rgba(218, 165, 32, 0.1)), to(rgba(218, 165, 32, 0.1)), color-stop(0.5, #fff));
+
+            -webkit-background-size: 125px 100%;
+            -moz-background-size: 125px 100%;
+            background-size: 125px 100%;
+            -webkit-background-clip: text;
+            -moz-background-clip: text;
+            background-clip: text;
+            -webkit-animation-name: shimmer;
+            -moz-animation-name: shimmer;
+            animation-name: shimmer;
+            -webkit-animation-duration: 2s;
+            -moz-animation-duration: 2s;
+            animation-duration: 2s;
+            -webkit-animation-iteration-count: infinite;
+            -moz-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            background-color: rgba(218, 165, 32, 0.8);
+        }
+
+        @-moz-keyframes shimmer {
+            0% {
+                background-position: top left;
+            }
+
+            100% {
+                background-position: top right;
+            }
+        }
+
+        @-webkit-keyframes shimmer {
+            0% {
+                background-position: top left;
+            }
+
+            100% {
+                background-position: top right;
+            }
+        }
+
+        @-o-keyframes shimmer {
+            0% {
+                background-position: top left;
+            }
+
+            100% {
+                background-position: top right;
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: top left;
+            }
+
+            100% {
+                background-position: top right;
+            }
+        }
+    </style>
+
+    <div class="shimmer" id="intro_shimmer"><i>Home·ly</i></div>
+    <!-- <div id="intro"><i>Home·ly</i></div> -->
+    <form autocomplete="off" action="/formsubmit" method="post">
+        File name: <input type="text" id="filename_input" name="filename_input" placeholder="">
+        <input id="form_button" type="submit" value="Search">
+    </form>
+
+    <div id="show_files">
+        <button id="hide_files_button" onclick="hide_files()">Show files</button>
+        <button id="view_files_button" onclick="view_files()">Refresh files</button>
+        <button id="download_files_button" onclick="download_all_files()">Download all files (as .zip)</button><br>
+        <button id="download_stage_button" onclick="download_stage()">Download selected</button>
+        <button id="stage_all_button" onclick="stage_all()">Select all</button>
+        <button id="stage_all_button" onclick="invert_stage()">Invert selection</button>
+    </div>
+    <a onclick="download_handler(1)" id="confirm_download_link" hidden=true>Confirm download</a>
+    <table id="directory_table" hidden=true>
+        <tr>
+            <td class="directory" id="view_files_output"><a id='directory_information_title'>Directory information</a>
+            </td>
+        </tr>
+    </table>
+    <div id="last_filename_reply"><br>Last search:</div>
+    <div id="buttons" hidden=true>
+        <button id="brightness_reset_button" onclick="bright_reset('rgb(211, 211, 211)', 'last_reply')">Reset
+            brightness</button>
+        <button id="brightness_decrease_button" onmousedown="brightD(-10, 'last_reply')" onmouseup="brightU()">Decrease
+            brightness</button>
+        <button id="brightness_increase_button" onmousedown="brightD(10, 'last_reply')" onmouseup="brightU()">Increase
+            brightness</button>
+        <!-- <button onclick="bright(-10, 'last_reply')">Decrease brightness</button> -->
+        <!-- <button onclick="bright(10, 'last_reply')">Increase brightness</button> -->
+        <button onclick="clear_reply()">Clear search</button><br>
+        <button onclick="copy_to_clipboard()">Copy to clipboard</button>
+        <button onclick="zoom(10, 'last_reply')">Zoom in</button>
+        <button onclick="zoom(-10, 'last_reply')">Zoom out</button>
+        <button onclick="resetzoom(30, 'last_reply')">Reset zoom</button><br>
+        <button onclick="download()">Download file</button>
+        <button onclick="edit()" id="edit_file_button">Edit file</button>
+    </div>
+
+    <table id="last_reply_table" hidden=true>
+        <tr>
+            <td id="last_reply" contentEditable=false></td>
+        </tr>
+    </table>
+
     <script>
         let bright_interval
         function brightD(amt, element_id) {
@@ -278,6 +479,49 @@
     <script src="https://riversun.github.io/jsframe/jsframe.js"></script>
 
     <script>
+        function cdownload_select(el, depth = true) {
+            let id = el.id.substr(0, el.id.length - 4) // _sel
+            // console.log(id)
+            let name = id + "_name"
+            let indent_name = id + "_ind"
+            let indent_amt = document.getElementById(indent_name).innerHTML.length
+            if (depth && document.getElementById(name).className == "reply_folder") {
+                // console.log("folder")
+                let sels = document.getElementsByClassName("cdownload_selector")
+                for (let x = 0; x < sels.length; x++) {
+                    if (el == sels[x]) {
+                        // console.log("found")
+                        for (let y = x + 1; y < sels.length; y++) {
+                            let sel = sels[y]
+                            let their_id = sel.id.substr(0, sel.id.length - 4) // _sel
+                            let their_name = their_id + "_name"
+                            let their_indent_name = their_id + "_ind"
+                            let their_indent_amt = document.getElementById(their_indent_name).innerHTML.length
+                            if (their_indent_amt <= indent_amt) {
+                                break
+                            } else {
+                                cdownload_select(sel, false)
+                            }
+                        }
+                        break
+                    }
+                }
+            } else {
+                // console.log("no foil")
+            }
+            if (el.checked) {
+                // console.log("Good")
+                el.checked = false
+                el.innerHTML = "[ ]"
+            } else {
+                // console.log("bad")
+                el.checked = true
+                el.innerHTML = "[<span class='file_sel_icon'>X</span>]"
+            }
+        }
+    </script>
+
+    <script>
         async function copy_to_clipboard() {
             let content = document.getElementById("last_reply").innerHTML
             content = content.replace("<br>", "\n")
@@ -317,7 +561,21 @@
                 .catch(err => { })
         }
 
-        function hide_files() {
+        function hide_files(force_show = false, force_hide = false) {
+            if (force_show) {
+                if (document.getElementById("directory_table").hidden) {
+                    document.getElementById("directory_table").hidden = false
+                    document.getElementById("hide_files_button").innerHTML = "Hide files"
+                }
+                return
+            }
+            if (force_hide) {
+                if (!document.getElementById("directory_table").hidden) {
+                    document.getElementById("directory_table").hidden = true
+                    document.getElementById("hide_files_button").innerHTML = "Show files"
+                }
+                return
+            }
             if (document.getElementById("directory_table").hidden) {
                 document.getElementById("directory_table").hidden = false
                 document.getElementById("hide_files_button").innerHTML = "Hide files"
@@ -328,6 +586,7 @@
         }
 
         function view_files() {
+            hide_files(true)
             const server_api_ip = heroku_url + "/api/get_files"
             let my_req = new Request(server_api_ip, {
                 mode: 'cors',
@@ -339,18 +598,36 @@
                     for (let file of res.files) {
                         if (file[file.length - 1] == "?") {
                             file = file.substring(0, file.length - 1)
-                            content += `<a class="reply_folder">${file}</button><br>`
+                            let original_file = file
+                            let indent = ""
+                            if (file.includes("/")) {
+                                let depth = file.match(/\//g).length
+                                for (let y = 0; y < depth; y++) {
+                                    indent += "&nbsp&nbsp"
+                                }
+                                if (indent) indent += "-&nbsp"
+                                file = file.substring(file.lastIndexOf("/") + 1)
+                            }
+                            // content += `<input class="cdownload_selector" type="checkbox" name="${original_file}"></input><a class="file_indent">${indent}</a><a class="reply_folder">${file}</a><br>`
+                            content += `<a class="cdownload_selector cd_format" checked=false onclick="cdownload_select(this)" name="${original_file}" id="${original_file}_sel">[ ]</a>
+                                <a class="file_indent cd_format" id="${original_file}_ind">${indent}</a>
+                                <a class="reply_folder" id="${original_file}_name">${file}</a><br>`
                         } else {
                             let original_file = file
                             let indent = ""
                             if (file.includes("/")) {
                                 let depth = file.match(/\//g).length
                                 for (let y = 0; y < depth; y++) {
-                                    indent += "---&nbsp"
+                                    // ‡⌐└―
+                                    indent += "&nbsp&nbsp"
                                 }
+                                if (indent) indent += "-&nbsp"
                                 file = file.substring(file.lastIndexOf("/") + 1)
                             }
-                            content += `<a href="" onclick="ffs('${original_file}')">${indent}${file}</button><br>`
+                            // content += `<input class="cdownload_selector" type="checkbox" name="${original_file}"></input><a class="file_indent">${indent}</a><a href="" onclick="ffs('${original_file}')">${file}</a><br>`
+                            content += `<a class="cdownload_selector cd_format" checked=false onclick="cdownload_select(this)" name="${original_file}" id="${original_file}_sel">[ ]</a>
+                                <a class="file_indent cd_format" id="${original_file}_ind">${indent}</a>
+                                <a href="" onclick="ffs('${original_file}')" id="${original_file}_name">${file}</a><br>`
                         }
                     }
                     document.getElementById("view_files_output").innerHTML = content
@@ -396,8 +673,165 @@
             }
         }
 
+        async function download_handler(type) {
+            await new Promise((resolve, reject) => {
+                document.getElementById("confirm_download_link").style.textDecoration = "none"
+                document.getElementById("confirm_download_link").innerHTML = "<span class='download_load_text'>Starting download in 2 seconds.</span>"
+                setTimeout(() => {
+                    document.getElementById("confirm_download_link").innerHTML = "<span class='download_load_text'>Starting download in 1 seconds.</span>"
+                }, 1000)
+                setTimeout(() => {
+                    document.getElementById("confirm_download_link").innerHTML = "<span class='download_load_text'>Starting download in 0 seconds.</span>"
+                    resolve()
+                }, 2000)
+            })
+
+            if (type == 1) {
+                window.location = heroku_url + "/download_all_files"
+            } else if (type == 2) {
+                let file_list = []
+                let els = document.getElementsByClassName("cdownload_selector")
+                for (let el of els) {
+                    if (el.checked) file_list.push(el.name)
+                }
+                const server_api_ip = heroku_url + "/api/set_cdownload_files"
+                let my_req = new Request(server_api_ip, {
+                    body: JSON.stringify({
+                        file_list: file_list
+                    }),
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    method: "POST",
+                    mode: "cors"
+                })
+                fetch(my_req).catch(err => { })
+                    .then(res => {
+                        window.location = heroku_url + "/cdownload_files"
+                    })
+            }
+            setTimeout(() => {
+                document.getElementById("confirm_download_link").hidden = true
+                document.getElementById("confirm_download_link").innerHTML = "Download complete"
+                document.getElementById("confirm_download_link").style.textDecoration = "underline"
+                hide_files(false, true)
+            }, 1000)
+        }
+
         function download_all_files() {
-            window.location = heroku_url + "/download_all_files"
+            hide_files(true)
+            let el = document.getElementById("confirm_download_link")
+            if (el.innerHTML == "Confirm download" || el.innerHTML == "Download complete") {
+                el.hidden = false
+                el.setAttribute("onclick", "download_handler(1)")
+                el.innerHTML = "Confirm download"
+                // window.location = heroku_url + "/download_all_files"
+                let tim, int
+                int = setInterval(() => {
+                    if (el.innerHTML != "Confirm download") {
+                        try {
+                            clearInterval(int)
+                        } catch (err) { }
+                        try {
+                            clearTimeout(tim)
+                        } catch (err) { }
+                    }
+                }, 500)
+                tim = setTimeout(() => {
+                    if (el.innerHTML == "Confirm download") {
+                        el.hidden = true
+                        try {
+                            clearInterval(int)
+                        } catch (err) { }
+                    }
+                }, 5000)
+            }
+        }
+
+        function download_stage() {
+            hide_files(true)
+            let download_han = document.getElementById("confirm_download_link")
+            if (download_han.innerHTML == "Confirm download" || download_han.innerHTML == "Download complete") {
+                download_han.hidden = false
+                download_han.setAttribute("onclick", "download_handler(2)")
+                download_han.innerHTML = "Confirm download"
+                let tim, int
+                int = setInterval(() => {
+                    if (download_han.innerHTML != "Confirm download") {
+                        try {
+                            clearInterval(int)
+                        } catch (err) { }
+                        try {
+                            clearTimeout(tim)
+                        } catch (err) { }
+                    }
+                }, 500)
+                tim = setTimeout(() => {
+                    if (download_han.innerHTML == "Confirm download") {
+                        download_han.hidden = true
+                        try {
+                            clearInterval(int)
+                        } catch (err) { }
+                    }
+                }, 5000)
+            }
+
+            // let file_list = []
+            // let els = document.getElementsByClassName("cdownload_selector")
+            // for (let el of els) {
+            //     if (el.checked) file_list.push(el.name)
+            // }
+            // const server_api_ip = heroku_url + "/api/set_cdownload_files"
+            // let my_req = new Request(server_api_ip, {
+            //     body: JSON.stringify({
+            //         file_list: file_list
+            //     }),
+            //     headers: {
+            //         "Content-Type": "application/json"
+            //     },
+            //     method: "POST",
+            //     mode: "cors"
+            // })
+            // fetch(my_req).catch(err => { })
+            //     .then(res => {
+            //         window.location = heroku_url + "/cdownload_files"
+            //     })
+        }
+
+        function stage_all() {
+            hide_files(true)
+            let button = document.getElementById("stage_all_button")
+            let not_all = false
+            let els = document.getElementsByClassName("cdownload_selector")
+            for (let el of els) {
+                if (!el.checked) {
+                    not_all = true
+                    break
+                }
+            }
+            if (not_all) {
+                for (let el of els) {
+                    if (!el.checked) {
+                        cdownload_select(el, false)
+                    }
+                }
+                button.innerHTML = "Select none"
+            } else {
+                for (let el of els) {
+                    if (el.checked) {
+                        cdownload_select(el, false)
+                    }
+                }
+                button.innerHTML = "Select all"
+            }
+        }
+
+        function invert_stage() {
+            hide_files(true)
+            let els = document.getElementsByClassName("cdownload_selector")
+            for (let el of els) {
+                cdownload_select(el, false)
+            }
         }
     </script>
 
@@ -432,138 +866,8 @@
         }
     </script>
 
-    <style>
-        #intro_shimmer {
-            /* color: goldenrod; */
-            /* margin: 20px; */
-            font-size: 40px;
-            font-family: "Brush Script MT (cursive)";
-            padding: 10px;
-            padding-top: 15px;
-        }
-
-        .shimmer {
-            text-align: center;
-            color: rgba(218, 165, 32, 0.1);
-            /* color: rgba(255, 255, 255, 0.1); */
-            /* background: -webkit-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff));
-        background: -moz-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff));
-        background: gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff)); */
-            background: -webkit-gradient(linear, left top, right top, from(rgba(218, 165, 32, 0.1)), to(rgba(218, 165, 32, 0.1)), color-stop(0.5, #fff));
-            background: -moz-gradient(linear, left top, right top, from(rgba(218, 165, 32, 0.1)), to(rgba(218, 165, 32, 0.1)), color-stop(0.5, #fff));
-            background: gradient(linear, left top, right top, from(rgba(218, 165, 32, 0.1)), to(rgba(218, 165, 32, 0.1)), color-stop(0.5, #fff));
-
-            -webkit-background-size: 125px 100%;
-            -moz-background-size: 125px 100%;
-            background-size: 125px 100%;
-            -webkit-background-clip: text;
-            -moz-background-clip: text;
-            background-clip: text;
-            -webkit-animation-name: shimmer;
-            -moz-animation-name: shimmer;
-            animation-name: shimmer;
-            -webkit-animation-duration: 2s;
-            -moz-animation-duration: 2s;
-            animation-duration: 2s;
-            -webkit-animation-iteration-count: infinite;
-            -moz-animation-iteration-count: infinite;
-            animation-iteration-count: infinite;
-            background-repeat: no-repeat;
-            background-position: 0 0;
-            background-color: rgba(218, 165, 32, 0.8);
-        }
-
-        @-moz-keyframes shimmer {
-            0% {
-                background-position: top left;
-            }
-
-            100% {
-                background-position: top right;
-            }
-        }
-
-        @-webkit-keyframes shimmer {
-            0% {
-                background-position: top left;
-            }
-
-            100% {
-                background-position: top right;
-            }
-        }
-
-        @-o-keyframes shimmer {
-            0% {
-                background-position: top left;
-            }
-
-            100% {
-                background-position: top right;
-            }
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: top left;
-            }
-
-            100% {
-                background-position: top right;
-            }
-        }
-    </style>
-
-    <!-- <script>
-        const jsFrame = new JSFrame();
-        jsFrame.showToast({
-            html: 'This is a simple toast', align: 'top', duration: 2000
-        });
-    </script> -->
-    <div class="shimmer" id="intro_shimmer"><i>Home·ly</i></div>
-    <!-- <div id="intro"><i>Home·ly</i></div> -->
-    <form autocomplete="off" action="/formsubmit" method="post">
-        File name: <input type="text" id="filename_input" name="filename_input" placeholder="">
-        <input id="form_button" type="submit" value="Search">
-    </form>
-
-    <div id="show_files">
-        <button id="hide_files_button" onclick="hide_files()">Show files</button>
-        <button id="view_files_button" onclick="view_files()">Refresh files</i></button>
-        <button id="download_files_button" onclick="download_all_files()">Download all files (as .zip)</i></button>
-    </div>
-    <table id="directory_table" hidden=true>
-        <tr>
-            <td class="directory" id="view_files_output"><a id='directory_information_title'>Directory information</a>
-            </td>
-        </tr>
-    </table>
-    <div id="last_filename_reply"><br>Last search:</div>
-    <div id="buttons" hidden=true>
-        <button id="brightness_reset_button" onclick="bright_reset('rgb(211, 211, 211)', 'last_reply')">Reset
-            brightness</button>
-        <button id="brightness_decrease_button" onmousedown="brightD(-10, 'last_reply')" onmouseup="brightU()">Decrease
-            brightness</button>
-        <button id="brightness_increase_button" onmousedown="brightD(10, 'last_reply')" onmouseup="brightU()">Increase
-            brightness</button>
-        <!-- <button onclick="bright(-10, 'last_reply')">Decrease brightness</button> -->
-        <!-- <button onclick="bright(10, 'last_reply')">Increase brightness</button> -->
-        <button onclick="clear_reply()">Clear search</button><br>
-        <button onclick="copy_to_clipboard()">Copy to clipboard</button>
-        <button onclick="zoom(10, 'last_reply')">Zoom in</button>
-        <button onclick="zoom(-10, 'last_reply')">Zoom out</button>
-        <button onclick="resetzoom(30, 'last_reply')">Reset zoom</button><br>
-        <button onclick="download()">Download file</button>
-        <button onclick="edit()" id="edit_file_button">Edit file</button>
-    </div>
-
-    <table id="last_reply_table" hidden=true>
-        <tr>
-            <td id="last_reply" contentEditable=false></td>
-        </tr>
-    </table>
-
     <script>
+        hide_files(false, true)
         omc()
     </script>
 

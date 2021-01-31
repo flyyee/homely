@@ -3,6 +3,8 @@ import time
 import pathlib
 import sys
 import shutil
+import winsound
+
 
 def relaunch(restart=False):
     print("Relaunch function called.")
@@ -28,8 +30,11 @@ def restart(verbose=True):
 if __name__ == "__main__":
     stop_first = False
     stop_only = False
-    update_first = False
-    check_interval = 10
+    update_first = True
+    no_check = False
+    no_run_audio = True
+    no_audio = False
+    check_interval = 60
     if len(sys.argv) > 1:
         if "-s" in sys.argv:
             stop_only = True
@@ -37,15 +42,25 @@ if __name__ == "__main__":
             stop_first = True
         if "-t" in sys.argv:
             check_interval = int(sys.argv[sys.argv.index("-t") + 1])
-        if "-u" in sys.argv:
-            update_first = True
+        if "-nu" in sys.argv:
+            update_first = False
+        if "-nc" in sys.argv:
+            no_check = True
+        if "-ra" in sys.argv:
+            no_run_audio = False
+        if "-na" in sys.argv:
+            no_audio = True
 
     if stop_only:
         stop()
+        if not no_audio:
+            winsound.Beep(250, 500)
         exit()
 
     if stop_first:
         stop()
+        if not no_audio:
+            winsound.Beep(250, 500)
 
     root_directory = "./data"
     previous_file_list = []
@@ -55,7 +70,7 @@ if __name__ == "__main__":
     check_count = 0
     relaunch_necessary = False
     first_check = True
-    while continue_checking:
+    while not no_check and continue_checking:
         check_count = (check_count + 1) % 10000
         # print(check_count)
         file_list = []
@@ -86,12 +101,20 @@ if __name__ == "__main__":
                 first_check = False
                 if not update_first:
                     restart()
+                    if not no_audio:
+                        winsound.Beep(500, 500)
                     print("Server is up and running")
                     print("View logs with 'heroku logs --tail'")
                     continue
             print("Relaunching on iteration " + str(check_count))
             # print("relaunching")
+            if not no_run_audio:
+                winsound.Beep(350, 250)
+                winsound.Beep(350, 150)
             relaunch()
+            if update_first or not no_run_audio:
+                if not no_audio:
+                    winsound.Beep(500, 500)
             print("Server is running with up-to-date data again")
             print("View logs with 'heroku logs --tail'")
         else:
@@ -102,6 +125,7 @@ if __name__ == "__main__":
 
 
 
+# use log file for this, just keep monitoring and trimming size
 # import subprocess
 # process = subprocess.Popen(["heroku", "logs"], shell=True, stdout=subprocess.PIPE)
 # # stdout = process.communicate()[0]

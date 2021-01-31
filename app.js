@@ -1,4 +1,5 @@
-const heroku_url = ''  // without trailing forward slash
+const heroku_url = 'https://flyyee-homely.herokuapp.com'  // without trailing forward slash
+// const heroku_url = 'http://localhost:9050'  // without trailing forward slash
 
 const fs = require("fs")
 const archiver = require('archiver');
@@ -157,6 +158,71 @@ async function main() {
         console.log("apid")
         download_filename = req.body.filename
         res.sendStatus(200)
+    })
+
+    app.post('/api/set_cdownload_files', (site_req, site_res) => {
+        new Promise((resolve, reject) => {
+            let file_list = site_req.body.file_list
+            console.log(file_list)
+            let zip_name = "zips/cdownload_files.zip" // TODO: add unique id (maybe from cookies) that identifiers user to their stage
+            // will allow for deletion afterwards, and ensures that users do not download other users' stage
+            if (fs.existsSync(zip_name)) fs.unlinkSync(zip_name)
+
+            const output = fs.createWriteStream(zip_name);
+            const archive = archiver('zip', {
+                zlib: { level: 9 } // Sets the compression level.
+            });
+            archive.pipe(output)
+        
+            let prev_folder = ""
+            for (let x = 0; x < file_list.length; x++) {
+                let file = file_list[x]
+                if (prev_folder.length > 0 && file.length >= prev_folder.length) {
+                    if (prev_folder) {
+                        if (file.substr(0, prev_folder.length) == prev_folder) {
+                            continue
+                        } else {
+                            if (fs.lstatSync("data/" + file).isDirectory()) prev_folder = file
+                        }
+                    } else {
+                        if (fs.lstatSync("data/" + file).isDirectory()) prev_folder = file
+                    }
+                } else {
+                    if (fs.lstatSync("data/" + file).isDirectory()) prev_folder = file
+                }
+                original_file = file
+                file = "data/" + file
+                if (!fs.existsSync(file)) continue
+                if (fs.lstatSync(file).isDirectory()) {
+                    archive.directory(file, original_file)
+                } else {
+                    archive.append(fs.createReadStream(file), { name: original_file });
+                }
+                
+            }
+        
+            output.on('close', function () {
+                // console.log(archive.pointer() + ' total bytes');
+                // console.log('archiver has been finalized and the output file descriptor has closed.');
+                resolve()
+            });
+            
+            archive.finalize();
+        }).then(res => {
+            site_res.sendStatus(200)
+        }).catch(err => {
+            console.log(err)
+            site_res.sendStatus(404)
+        })
+    })
+
+    app.get("/cdownload_files", (req, res) => {
+        let zip_name = "zips/cdownload_files.zip"
+        if (fs.existsSync(zip_name)) {
+            res.download(zip_name)
+        } else {
+            res.sendStatus(404)
+        }
     })
 
     app.get('/download_last_file', function (req, res) {
