@@ -4,6 +4,16 @@
 
 ---
 
+## About
+
+Remotely access files on your computer from anywhere, on any device. All your files are hosted on your ***OWN*** web server, which can be manually configured and tailored to your needs.
+
+### [Installer for automatic set-up](https://github.com/flyyee/homelyinstaller)
+
+Manual set-up guide below (only recommended for advanced users).
+
+---
+
 ## Requirements
 
 - Node.js 12.18.1
