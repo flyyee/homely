@@ -47,4 +47,4 @@ OSX/Linux is not supported.
 
 ---
 
-Created by github.com/flyyee under GNU General Public License v3.0
+Created and maintained by [flyyee](github.com/flyyee) under GNU General Public License v3.0
